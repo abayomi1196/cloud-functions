@@ -201,6 +201,8 @@ exports.getHandleDetails = (req, res) => {
           .where("userHandle", "==", req.params.handle)
           .orderBy("createdAt", "desc")
           .get();
+      } else {
+        res.status(404).json({ error: "User not found!" });
       }
     })
     .then((data) => {
