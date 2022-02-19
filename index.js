@@ -40,7 +40,7 @@ app.post("/user/image", FBAuth, uploadImage);
 app.post("/user", FBAuth, addUserDetails);
 app.get("/user", FBAuth, getUserDetails);
 app.get("/user/:handle", getHandleDetails);
-// app.post("/notifications", FBAuth, markNotificationsRead);
+app.post("/notifications", FBAuth, markNotificationsRead);
 
 exports.api = functions.https.onRequest(app);
 
