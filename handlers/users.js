@@ -187,6 +187,37 @@ exports.getUserDetails = (req, res) => {
     });
 };
 
+// get handle details
+exports.getHandleDetails = (req, res) => {
+  let userData = {};
+
+  db.doc(`/users/${req.params.handle}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData.user = doc.data();
+        return db
+          .collection(`screams`)
+          .where("userHandle", "==", req.params.handle)
+          .orderBy("createdAt", "desc")
+          .get();
+      }
+    })
+    .then((data) => {
+      userData.screams = [];
+
+      data.forEach((doc) => {
+        userData.screams.push({ ...doc.data(), screamId: doc.id });
+      });
+
+      return res.json(userData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
+
 // image upload using busboy
 exports.uploadImage = (req, res) => {
   const busboy = BusBoy({ headers: req.headers });
