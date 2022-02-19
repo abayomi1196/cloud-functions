@@ -83,7 +83,9 @@ exports.signUpUser = (req, res) => {
       if ((err.code = "auth/email-already-exists")) {
         return res.status(400).json({ email: "Email is already in use" });
       } else {
-        return res.status(500).json({ error: err });
+        return res
+          .status(500)
+          .json({ general: "Something went wrong. Please try again" });
       }
     });
 };
@@ -119,14 +121,10 @@ exports.loginUser = (req, res) => {
       return res.json({ userToken: result.data.idToken });
     })
     .catch((err) => {
-      if (err.response?.status === 400) {
-        console.log(err.response);
-        return res
-          .status(403)
-          .json({ general: err.response.data.error.message });
-      } else {
-        res.status(500).json({ error: err.response.data.error.message });
-      }
+      console.log(err?.response);
+      return res
+        .status(403)
+        .json({ general: "Wrong credentials. Please try again" });
     });
 };
 
