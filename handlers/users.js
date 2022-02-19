@@ -3,12 +3,10 @@ const BusBoy = require("busboy");
 const path = require("path");
 const os = require("os");
 const fs = require("fs");
+require("dotenv").config();
 
 const { isEmpty, isEmail, reduceUserDetails } = require("../utils/utils");
 const { db, admin } = require("../utils/admin");
-
-const API_KEY = "AIzaSyAvANygUB5N-80DEFvQKPP4RtI0bRPhfOs";
-const STORAGE_BUCKET = "bored-ape-ba1ce.appspot.com";
 
 // signup user - get user dets from req body, (1)check if user with that handle already exists before creating new user, (2) then generate custom token to authenticate their requests (3) create new doc in users collection with user's creds & send token to frontend.
 exports.signUpUser = (req, res) => {
@@ -68,7 +66,7 @@ exports.signUpUser = (req, res) => {
         handle: newUser.handle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
-        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/${noImg}?alt=media`,
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${process.env.STORAGE_BUCKET}/o/${noImg}?alt=media`,
         userId,
       };
 
@@ -114,7 +112,7 @@ exports.loginUser = (req, res) => {
 
   axios
     .post(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.API_KEY}`,
       { email: user.email, password: user.password, returnSecureToken: true }
     )
     .then((result) => {
@@ -262,7 +260,7 @@ exports.uploadImage = (req, res) => {
         },
       })
       .then(() => {
-        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/${imageFileName}?alt=media`;
+        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${process.env.STORAGE_BUCKET}/o/${imageFileName}?alt=media`;
 
         console.log(imageUrl);
 
