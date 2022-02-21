@@ -1,6 +1,9 @@
 const { db } = require("../utils/admin");
 
 exports.getAllScreams = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   let screams = [];
 
   db.collection("screams")
@@ -19,6 +22,9 @@ exports.getAllScreams = (req, res) => {
 };
 
 exports.addScream = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const newScream = {
     body: req.body.body,
     userHandle: req.user.handle,
@@ -44,6 +50,9 @@ exports.addScream = (req, res) => {
 };
 
 exports.getSingleScream = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   let screamData = {};
 
   db.doc(`/screams/${req.params.screamId}`)
@@ -78,6 +87,9 @@ exports.getSingleScream = (req, res) => {
 
 // create comment
 exports.createScreamComment = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   if (req.body.body.trim() === "") {
     return res.status(400).json({ comment: "Must not be empty" });
   }
@@ -113,6 +125,9 @@ exports.createScreamComment = (req, res) => {
 
 // like scream
 exports.likeScream = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const likeDocument = db
     .collection("likes")
     .where("userHandle", "==", req.user.handle)
@@ -158,6 +173,9 @@ exports.likeScream = (req, res) => {
 
 // unlike scream
 exports.unLikeScream = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const likeDocument = db
     .collection("likes")
     .where("userHandle", "==", req.user.handle)
@@ -203,6 +221,9 @@ exports.unLikeScream = (req, res) => {
 
 // delete scream
 exports.deleteScream = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const docRef = db.doc(`/screams/${req.params.screamId}`);
 
   docRef

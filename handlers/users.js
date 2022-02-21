@@ -10,6 +10,9 @@ const { db, admin } = require("../utils/admin");
 
 // signup user - get user dets from req body, (1)check if user with that handle already exists before creating new user, (2) then generate custom token to authenticate their requests (3) create new doc in users collection with user's creds & send token to frontend.
 exports.signUpUser = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const newUser = {
     email: req.body.email,
     password: req.body.password,
@@ -90,6 +93,9 @@ exports.signUpUser = (req, res) => {
 
 // login user - (1)validate input, (2) make post request to firebase rest API signInWithPassword route, authenticated with API_KEY, (3) return token if successful or appropriate error message
 exports.loginUser = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const user = {
     email: req.body.email,
     password: req.body.password,
@@ -128,6 +134,9 @@ exports.loginUser = (req, res) => {
 
 // add user details
 exports.addUserDetails = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   let userDetails = reduceUserDetails(req.body);
 
   db.doc(`/users/${req.user.handle}`)
@@ -143,6 +152,9 @@ exports.addUserDetails = (req, res) => {
 
 // get user details
 exports.getUserDetails = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   let userData = {};
 
   db.doc(`/users/${req.user.handle}`)
@@ -185,6 +197,9 @@ exports.getUserDetails = (req, res) => {
 
 // get handle details
 exports.getHandleDetails = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   let userData = {};
 
   db.doc(`/users/${req.params.handle}`)
@@ -218,6 +233,9 @@ exports.getHandleDetails = (req, res) => {
 
 // image upload using busboy
 exports.uploadImage = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   const busboy = BusBoy({ headers: req.headers });
 
   let imageFileName;
@@ -282,6 +300,9 @@ exports.uploadImage = (req, res) => {
 
 // mark notifications read
 exports.markNotificationsRead = (req, res) => {
+  // cors
+  res.set("Access-Control-Allow-Origin", "*");
+
   let batch = db.batch();
 
   req.body.forEach((notificationId) => {
