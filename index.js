@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const express = require("express");
+const cors = require("cors");
 
 const { FBAuth } = require("./utils/firebaseAuth");
 const { db } = require("./utils/admin");
@@ -23,6 +24,9 @@ const {
 } = require("./handlers/users");
 
 const app = express();
+
+// automatically allow cross-origin requests
+app.use(cors({ origin: true }));
 
 // scream routes
 app.get("/screams", getAllScreams);
